@@ -1,28 +1,18 @@
 using UnityEngine;
 using TMPro;
 
-public class TextCharacterShakeEffect : TextEffect
+public class TextCharacterShakeEffect : TextVertexEffect
 {
-    static float shakeStrength = 2f;
 
-    public new static void UpdateText(TMP_TextInfo info) {
+    public override void UpdateText(Vector3[][] textVertices, int start, int end, float input) {
+        for (int i = start; i < end; i++) {
 
-        for (int i = 0; i < info.characterCount; i++) { 
-            TMP_CharacterInfo charInfo = info.characterInfo[i];
+            float shakeX = Random.Range(-input, input);
+            float shakeY = Random.Range(-input, input); 
 
-            if (!charInfo.isVisible) {
-                continue;
-            
-            }
-
-            Vector3[] vertices = info.meshInfo[charInfo.materialReferenceIndex].vertices;
-
-            float shakeX = Random.Range(-shakeStrength, shakeStrength);
-            float shakeY = Random.Range(-shakeStrength, shakeStrength); 
-
-            for (int j = 0; j < 4; ++j) {
-                Vector3 orig = vertices[charInfo.vertexIndex + j];
-                vertices[charInfo.vertexIndex + j] = orig + new Vector3(shakeX, shakeY);
+            for (int j = 0; j < 4; j++) {
+                Vector3 orig = textVertices[i][j];
+                textVertices[i][j] = orig + new Vector3(shakeX, shakeY);
         
             }
 

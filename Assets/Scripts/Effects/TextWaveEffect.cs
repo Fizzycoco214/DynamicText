@@ -2,29 +2,39 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class TextWaveEffect : TextEffect
+public class TextWaveEffect : TextVertexEffect
 {
-    static float waveStrength = 10f;
-    static float waveFrequency = 2f;
-    static float waveSpeed = 2f;
+    static float waveFrequency = 0.01f;
+    static float waveSpeed = 4f;
 
-    public new static void UpdateText(TMP_TextInfo info) {
-        for (int i = 0; i < info.characterCount; i++) { 
-            TMP_CharacterInfo charInfo = info.characterInfo[i];
+    public override void UpdateText(Vector3[][] textVertices, int start, int end, float input) {
+        for (int i = start; i < end; i++) { 
 
-            if (!charInfo.isVisible) {
-                continue;
-            
-            }
+            float charX = getFurthestLeftPoint(textVertices[i]);
 
-            Vector3[] vertices = info.meshInfo[charInfo.materialReferenceIndex].vertices;
+            //Debug.DrawRay(textVertices[i][0], Vector3.right + Vector3.up * wave, Color.red);
+            for (int j = 0; j < 4; j++) {
+                Vector3 orig = textVertices[i][j];
 
-            for (int j = 0; j < 4; ++j) {
-                Vector3 orig = vertices[charInfo.vertexIndex + j];
-                vertices[charInfo.vertexIndex + j] = orig + Mathf.Sin((Time.time * waveSpeed) + (charInfo.vertexIndex * waveFrequency)) * Vector3.up * waveStrength;
-        
+                
+                textVertices[i][j] = orig + getSin(orig.x) * (Vector3.up * input);
             }
 
         }
+
+    }
+
+    static float getSin(float x) {
+        return Mathf.Sin(x * waveFrequency + Time.time * waveSpeed);
+    }
+
+    static float getFurthestLeftPoint(Vector3[] vertices) {
+        float furthestLeft = float.MaxValue;
+        for (int i = 0; i < vertices.Length; i++) {
+            if (vertices[i].x < furthestLeft) {
+                furthestLeft = vertices[i].x;
+            }
+        }
+        return furthestLeft;
     }
 }

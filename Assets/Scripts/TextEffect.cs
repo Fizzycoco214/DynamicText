@@ -1,9 +1,6 @@
 using UnityEngine;
-using TMPro;
 
-public class TextEffect
+public abstract class TextVertexEffect
 {
-    public static void UpdateText(TMP_TextInfo textInfo) {
-        
-    }
+    public abstract void UpdateText(Vector3[][] textVertices, int start, int end, float input);
 }
