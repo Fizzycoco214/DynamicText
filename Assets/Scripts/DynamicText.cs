@@ -14,7 +14,7 @@ public class DynamicText : MonoBehaviour
     void Start()
     {
         text = GetComponent<TMP_Text>();
-        //Kinda gross workaround to get the text to update
+        //Text mesh pro text doesn't like being passed as a reference 
         string parsedText = text.text;
         effectRanges = ParseText(ref parsedText);
         text.text = parsedText;
@@ -28,6 +28,7 @@ public class DynamicText : MonoBehaviour
 
         Vector3[][] textVertices = new Vector3[textInfo.characterCount][];
         
+        //Get the vertices of the text
         for(int i = 0; i < textInfo.characterCount; i++){
             TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
             textVertices[i] = new Vector3[4];
@@ -39,6 +40,15 @@ public class DynamicText : MonoBehaviour
         void UpdateMesh() {
             for(int i = 0; i < textInfo.characterCount; i++){
                 TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
+
+                /*
+                For some reason text mesh pro decides to use quantum entaglement when dealing with whitespace characters so we just ignore changes made to them
+                (for some reason the vertices for a space character are both not real and actually just references to the first character in the text????)
+                */
+                if(charInfo.character == ' ' || charInfo.character == '\n' || charInfo.character == '\t') {
+                    continue;
+                }
+
                 for(int j = 0; j < 4; j++) {
                     textInfo.meshInfo[charInfo.materialReferenceIndex].vertices[charInfo.vertexIndex + j] = textVertices[i][j];
                 }
@@ -48,7 +58,6 @@ public class DynamicText : MonoBehaviour
 
 
         foreach(EffectRange effectRange in effectRanges) {
-            print(effectRange.effect + " " + effectRange.startIndex + " " + effectRange.endIndex + " " + effectRange.input);
             effectRange.effect.UpdateText(textVertices, effectRange.startIndex, effectRange.endIndex, effectRange.input);
             UpdateMesh();
         }

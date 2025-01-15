@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TextParser : MonoBehaviour
@@ -13,7 +12,7 @@ public class TextParser : MonoBehaviour
     private const string REMAINDER_REGEX = "(.*?((?=>)|(/|$)))";
 
     //Because text mesh pro parses it's own tags, we need to find them
-    private static  readonly Regex richTagRegex = new Regex("<.*?>");
+    private static  readonly Regex richTagRegex = new Regex("<" + REMAINDER_REGEX + ">");
 
     static readonly TextRegex[] textRegexes = {
         new("shake", new TextCharacterShakeEffect()),
@@ -57,7 +56,6 @@ public class TextParser : MonoBehaviour
                     float input = float.Parse(startMatch.Groups["input"].Value);
                     int startIndex = startMatch.Index;
                     int endIndex = text.Length; //Because there can be no end tag, the default end index is the end of the text
-                    //Removes the tags from the text
 
                     //If an end tag exists
                     if(endMatch != null) {
@@ -70,7 +68,7 @@ public class TextParser : MonoBehaviour
             }
         }
 
-        //Fixing the indexes and removing tags
+        //Fixing the removing tags and fixing indexes for the preceding tags
         for(int i = 0; i < effectRanges.Count; i++) {
             
 
@@ -87,11 +85,12 @@ public class TextParser : MonoBehaviour
 
         //Modifying the indexes to account for the removed non custom rich tags
         MatchCollection nonCustomTagMatches = richTagRegex.Matches(text);
+        nonCustomTagMatches.OrderBy(match => match.Index);
+        int offset = 0;
         for(int i = 0; i < nonCustomTagMatches.Count; i++) {
             Match match = nonCustomTagMatches[i];
-            if(match.Success) {
-                UpdateRanges(match.Index, match.Length);
-            }
+            UpdateRanges(match.Index - offset, match.Length);
+            offset += match.Length;
         }
 
         return effectRanges;
