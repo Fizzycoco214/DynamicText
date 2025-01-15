@@ -8,9 +8,12 @@ using UnityEngine;
 
 public class TextParser : MonoBehaviour
 {
-    //Regexes from https://github.com/markv12/VertexTextAnimationDemo
+    //Remainder Regex from https://github.com/markv12/VertexTextAnimationDemo
 
     private const string REMAINDER_REGEX = "(.*?((?=>)|(/|$)))";
+
+    //Because text mesh pro parses it's own tags, we need to find them
+    private static  readonly Regex richTagRegex = new Regex("<.*?>");
 
     static readonly TextRegex[] textRegexes = {
         new("shake", new TextCharacterShakeEffect()),
@@ -82,12 +85,14 @@ public class TextParser : MonoBehaviour
             UpdateRanges(effectRanges[i].endIndex, effectRanges[i].endTagLength);
         }
 
-        // //Because the mesh doesn't have spaces
-        // for(int i = 0; i < text.Length; i++) {
-        //     if(text[i] == ' ') {
-        //         UpdateRanges(i, 1);
-        //     }
-        // }
+        //Modifying the indexes to account for the removed non custom rich tags
+        MatchCollection nonCustomTagMatches = richTagRegex.Matches(text);
+        for(int i = 0; i < nonCustomTagMatches.Count; i++) {
+            Match match = nonCustomTagMatches[i];
+            if(match.Success) {
+                UpdateRanges(match.Index, match.Length);
+            }
+        }
 
         return effectRanges;
     }
