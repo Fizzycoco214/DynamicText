@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ace39aa082be564e934a3389d4919c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textDisplaySpeed: 8
 --- !u!114 &25173009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +190,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <wave:5><shake:3> Combine effects
+  m_text: <wave:8><shake:3><slide:0.3>Combine <pause:3></slide><speed:80><grow:0.6>effects
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -216,7 +217,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 44.65
   m_fontSizeBase: 40.38
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -326,7 +327,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <wave:10> Custom text effects
+  m_text: <wave:10><grow:0.1>Custom text effects
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -349,11 +350,11 @@ MonoBehaviour:
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
+  m_overrideHtmlColors: 1
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 71.85
   m_fontSizeBase: 40.38
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -417,6 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ace39aa082be564e934a3389d4919c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textDisplaySpeed: 8
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,6 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ace39aa082be564e934a3389d4919c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textDisplaySpeed: 8
 --- !u!114 &1567114958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,6 +1026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ace39aa082be564e934a3389d4919c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textDisplaySpeed: 8
 --- !u!114 &2043396424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1043,7 +1047,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <shake:5><color=red>Works with <b>rich tags
+  m_text: <wave:5><slide:0.3><color:red><b>rich tag </b><i>support
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1066,11 +1070,11 @@ MonoBehaviour:
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
+  m_overrideHtmlColors: 1
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 59.55
   m_fontSizeBase: 40.38
   m_fontWeight: 400
   m_enableAutoSizing: 1
